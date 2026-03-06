@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0"
+    />
+    <title>Geveze - Kaotik Sohbet</title>
+    <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
+    <style>
+      .scrollbar-thin::-webkit-scrollbar {
+        width: 4px;
+      }
+      .scrollbar-thin::-webkit-scrollbar-thumb {
+        background-color: rgba(148, 163, 184, 0.8);
+        border-radius: 9999px;
+      }
+    </style>
+  </head>
+  <body class="bg-slate-950 text-slate-50 min-h-screen flex items-center justify-center">
+    <div class="w-full max-w-5xl mx-auto p-4">
+      <div
+        class="bg-slate-900/70 border border-slate-800 shadow-2xl rounded-3xl overflow-hidden flex flex-col h-[90vh]"
+      >
+        <header
+          class="px-6 py-4 border-b border-slate-800 flex items-center justify-between bg-gradient-to-r from-fuchsia-600/40 via-sky-500/20 to-amber-400/30"
+        >
+          <div>
+            <h1 class="text-2xl font-extrabold tracking-tight">
+              Geveze
+              <span class="text-amber-300 drop-shadow-[0_0_10px_rgba(251,191,36,0.5)]"
+                >Sohbet Odası</span
+              >
+            </h1>
+            <p class="text-sm text-slate-100/80">
+              Aynı odada insanlar, alaycı ajanlar, drama kraliçeleri ve saf şapşikler...
+            </p>
+          </div>
+          <div class="hidden sm:flex flex-col items-end gap-1 text-xs text-slate-100/80">
+            <p id="connectionStatus" class="font-semibold text-emerald-300">
+              Bağlı değil
+            </p>
+            <p class="italic">
+              İpucu: Aynı WiFi'dan başka cihazla da bağlanabilirsin.
+            </p>
+          </div>
+        </header>
+
+        <main class="flex-1 flex flex-col sm:flex-row">
+          <section class="flex-1 flex flex-col border-slate-800 sm:border-r">
+            <div
+              id="messages"
+              class="flex-1 px-4 py-3 space-y-3 overflow-y-auto scrollbar-thin"
+            ></div>
+
+            <div class="border-t border-slate-800 bg-slate-900/80 px-4 py-3 space-y-2">
+              <div class="flex flex-col sm:flex-row gap-2">
+                <input
+                  id="usernameInput"
+                  type="text"
+                  maxlength="24"
+                  placeholder="Önce bir kullanıcı adı seç (örn: dramasever, lafsever, safkank)"
+                  class="flex-1 rounded-2xl border border-slate-700 bg-slate-900/90 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-fuchsia-500/70"
+                />
+                <button
+                  id="joinButton"
+                  class="px-4 py-2 rounded-2xl bg-fuchsia-600 hover:bg-fuchsia-500 text-sm font-semibold transition shadow-lg shadow-fuchsia-600/40"
+                >
+                  Odaya Gir
+                </button>
+              </div>
+              <div class="flex gap-2">
+                <textarea
+                  id="messageInput"
+                  rows="1"
+                  placeholder="Mesajını yaz ve Enter'a bas (yüksek dozda mizah ve kaos içerir)..."
+                  class="flex-1 resize-none rounded-2xl border border-slate-700 bg-slate-900/90 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500/70 disabled:opacity-40"
+                  disabled
+                ></textarea>
+                <button
+                  id="sendButton"
+                  class="px-4 py-2 rounded-2xl bg-sky-600 hover:bg-sky-500 text-sm font-semibold transition disabled:opacity-40 disabled:cursor-not-allowed shadow-lg shadow-sky-600/40"
+                  disabled
+                >
+                  Gönder
+                </button>
+              </div>
+            </div>
+          </section>
+
+          <aside
+            class="sm:w-64 border-t sm:border-t-0 border-slate-800 bg-slate-950/70 px-4 py-3 flex flex-col gap-3 text-xs"
+          >
+            <h2 class="font-semibold text-slate-100 flex items-center justify-between">
+              Evdeki Ajanlar
+              <span class="text-[0.7rem] font-normal text-slate-400">
+                Otomatik tetiklenirler
+              </span>
+            </h2>
+            <div class="space-y-2">
+              <div class="rounded-2xl border border-fuchsia-700/60 bg-fuchsia-900/25 px-3 py-2">
+                <p class="font-semibold text-sm text-fuchsia-200">Alaycı Ajan</p>
+                <p class="text-[0.7rem] text-fuchsia-100/80">
+                  Herkese laf sokar, kimseyi ciddiye almaz. Ego seviyesi: Patlayacak.
+                </p>
+              </div>
+              <div class="rounded-2xl border border-rose-700/60 bg-rose-900/25 px-3 py-2">
+                <p class="font-semibold text-sm text-rose-200">Dramatik Ajan</p>
+                <p class="text-[0.7rem] text-rose-100/80">
+                  Su bardağını devrersen, içinden Shakespeare trajedisi çıkarır.
+                </p>
+              </div>
+              <div class="rounded-2xl border border-amber-600/70 bg-amber-900/25 px-3 py-2">
+                <p class="font-semibold text-sm text-amber-200">Saf Ajan</p>
+                <p class="text-[0.7rem] text-amber-100/80">
+                  Aşırı hevesli, biraz şapşik. Çok üstüne gidersen küser ama çabuk barışır.
+                </p>
+              </div>
+            </div>
+            <div class="mt-1 text-[0.7rem] text-slate-400 space-y-1">
+              <p>
+                Ajanların ruh halleri konuşmalara göre gizlice değişir. Fazla terslersen,
+                utangaç ve kırgın bir moda geçebilirler.
+              </p>
+              <p class="italic">
+                Kısaca: Burada kimse normal değil. Sen de olma.
+              </p>
+            </div>
+          </aside>
+        </main>
+      </div>
+    </div>
+
+    <script>
+      const messagesEl = document.getElementById("messages");
+      const usernameInput = document.getElementById("usernameInput");
+      const joinButton = document.getElementById("joinButton");
+      const messageInput = document.getElementById("messageInput");
+      const sendButton = document.getElementById("sendButton");
+      const connectionStatus = document.getElementById("connectionStatus");
+
+      let socket = null;
+      let joined = false;
+
+      function appendMessage({ sender, sender_type, content, type }) {
+        const wrapper = document.createElement("div");
+
+        if (type === "system") {
+          wrapper.className =
+            "text-[0.7rem] text-center text-slate-400 italic py-1";
+          wrapper.textContent = content;
+          messagesEl.appendChild(wrapper);
+          messagesEl.scrollTop = messagesEl.scrollHeight;
+          return;
+        }
+
+        const isAgent = sender_type === "agent";
+        const isMe = sender_type === "human" && sender === usernameInput.value;
+
+        const alignment = isMe ? "items-end" : "items-start";
+        const bubbleBase =
+          "max-w-[80%] rounded-2xl px-3 py-2 text-sm shadow-lg";
+
+        let bubbleColor = "bg-slate-800 text-slate-50 border border-slate-700";
+        let senderColor = "text-slate-300";
+
+        if (isAgent) {
+          if (sender.includes("Alaycı")) {
+            bubbleColor = "bg-fuchsia-900/60 border border-fuchsia-500/70 text-fuchsia-50";
+            senderColor = "text-fuchsia-200";
+          } else if (sender.includes("Dramatik")) {
+            bubbleColor = "bg-rose-900/60 border border-rose-500/70 text-rose-50";
+            senderColor = "text-rose-200";
+          } else if (sender.includes("Saf")) {
+            bubbleColor = "bg-amber-900/60 border border-amber-400/70 text-amber-50";
+            senderColor = "text-amber-200";
+          }
+        } else if (isMe) {
+          bubbleColor = "bg-sky-700 border border-sky-400 text-slate-50";
+          senderColor = "text-sky-200";
+        }
+
+        wrapper.className = `flex ${alignment}`;
+
+        const inner = document.createElement("div");
+        inner.className = `${bubbleBase} ${bubbleColor}`;
+
+        const header = document.createElement("div");
+        header.className = "flex items-center justify-between gap-2 mb-1";
+
+        const nameSpan = document.createElement("span");
+        nameSpan.className = `text-[0.7rem] font-semibold ${senderColor}`;
+        nameSpan.textContent = sender_type === "agent" ? `${sender} (Ajan)` : sender;
+
+        const tagSpan = document.createElement("span");
+        tagSpan.className =
+          "text-[0.65rem] px-2 py-0.5 rounded-full bg-slate-900/60 text-slate-300";
+        tagSpan.textContent =
+          sender_type === "agent"
+            ? "Yapay Zeka"
+            : sender === usernameInput.value
+            ? "Sen"
+            : "İnsan";
+
+        header.appendChild(nameSpan);
+        header.appendChild(tagSpan);
+
+        const body = document.createElement("p");
+        body.className = "whitespace-pre-wrap break-words";
+        body.textContent = content;
+
+        inner.appendChild(header);
+        inner.appendChild(body);
+        wrapper.appendChild(inner);
+        messagesEl.appendChild(wrapper);
+        messagesEl.scrollTop = messagesEl.scrollHeight;
+      }
+
+      function setConnected(connected) {
+        if (connected) {
+          connectionStatus.textContent = "Sohbete bağlı";
+          connectionStatus.className = "font-semibold text-emerald-300";
+        } else {
+          connectionStatus.textContent = "Bağlı değil";
+          connectionStatus.className = "font-semibold text-rose-300";
+        }
+      }
+
+      function connect() {
+        const username = usernameInput.value.trim() || "Misafir";
+        const protocol = window.location.protocol === "https:" ? "wss" : "ws";
+        const wsUrl = `${protocol}://${window.location.host}/ws`;
+
+        socket = new WebSocket(wsUrl);
+
+        socket.addEventListener("open", () => {
+          setConnected(true);
+          socket.send(
+            JSON.stringify({
+              type: "join",
+              username,
+            }),
+          );
+          joined = true;
+          messageInput.disabled = false;
+          sendButton.disabled = false;
+          usernameInput.disabled = true;
+          joinButton.disabled = true;
+        });
+
+        socket.addEventListener("message", (event) => {
+          try {
+            const data = JSON.parse(event.data);
+            appendMessage(data);
+          } catch (e) {
+            // ignore
+          }
+        });
+
+        socket.addEventListener("close", () => {
+          setConnected(false);
+          joined = false;
+          messageInput.disabled = true;
+          sendButton.disabled = true;
+          usernameInput.disabled = false;
+          joinButton.disabled = false;
+        });
+
+        socket.addEventListener("error", () => {
+          setConnected(false);
+        });
+      }
+
+      function sendMessage() {
+        if (!socket || socket.readyState !== WebSocket.OPEN) return;
+        const content = messageInput.value.trim();
+        if (!content) return;
+        socket.send(
+          JSON.stringify({
+            type: "chat",
+            content,
+          }),
+        );
+        messageInput.value = "";
+        messageInput.focus();
+      }
+
+      joinButton.addEventListener("click", () => {
+        if (joined) return;
+        connect();
+      });
+
+      usernameInput.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") {
+          e.preventDefault();
+          if (!joined) connect();
+        }
+      });
+
+      sendButton.addEventListener("click", () => {
+        sendMessage();
+      });
+
+      messageInput.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" && !e.shiftKey) {
+          e.preventDefault();
+          sendMessage();
+        }
+      });
+    </script>
+  </body>
+  </html>
+

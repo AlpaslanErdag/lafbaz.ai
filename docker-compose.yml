@@ -1,0 +1,14 @@
+version: "3.9"
+
+services:
+  geveze-app:
+    build: .
+    container_name: geveze-app
+    ports:
+      - "7800:7800"
+    environment:
+      # Ollama'nın host makinede çalıştığı varsayımıyla
+      - OLLAMA_BASE_URL=${OLLAMA_BASE_URL-http://host.docker.internal:11434}
+      - OLLAMA_MODEL=${OLLAMA_MODEL-llama3.1}
+    restart: unless-stopped
+

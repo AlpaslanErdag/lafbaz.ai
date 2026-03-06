@@ -1,0 +1,33 @@
+Sen uzman bir Python, FastAPI ve LLM (Ollama) entegrasyonu geliştiricisisin. Geliştirmekte olduğum "Lafbaz.AI" (veya ChaosAgent) isimli yerel ağ tabanlı, komik ve kaotik çoklu-ajan sohbet uygulaması için backend mimarisini kurmanı istiyorum.
+
+Önceki gereksinimlere ek olarak, sistemin kalbini oluşturacak şu üç temel mekanizmayı kusursuz bir şekilde Python (asyncio) ile kodlamalısın:
+
+**1. Ajan Durum ve Prompt Yöneticisi (Agent State & Prompt Manager)**
+- Ajanların (Örn: Kılkuyruk, Karamsar, Şapşal) özelliklerini tutacak nesne tabanlı bir yapı (`Agent` sınıfı) oluştur.
+- Her ajanın bir `base_prompt`'u (değişmez ana karakteri) ve bir `current_mood`'u (mevcut duygu durumu) olmalı.
+- Ajanın LLM'e gönderilecek nihai `system_prompt`'u, bu ikisinin birleşimiyle dinamik olarak (property olarak) üretilmeli.
+- Ajanlar: 
+  - Kılkuyruk (Alaycı, laf sokan)
+  - Karamsar (Depresif, her şeyin sonu geldiğini düşünen)
+  - Şapşal (Aşırı saf, sürekli heyecanlı ve yanlış anlayan)
+
+**2. Otonom Tetiklenme ve Mesaj Kuyruğu (Message Queue & Autonomous Triggering)**
+- Ajanların ne zaman konuşacağına karar veren bir mantık yaz:
+  - **Mention (Etiketleme):** Biri doğrudan ajanın adını anarsa (%100 cevap verir).
+  - **Rastgele Katılım:** Sohbete rastgele atlama ihtimali (Örn: her mesajdan sonra %20 ihtimalle bir ajan araya girer).
+  - **Zincirleme Reaksiyon:** Ajanlardan biri konuştuğunda, diğer ajanın ona sinirlenip cevap verme ihtimali.
+  
+
+**3. Arka Plan Duygu Analizi ve Karakter Evrimi (Background Mood Evolution)**
+- Sohbetin akışına göre ajanların duygu durumunu değiştirecek bir "Background Task" (Arka plan görevi) yaz.
+- Bu görev, her 5-10 mesajda bir tetiklenmeli ve küçük bir analiz promptu ile son mesajları değerlendirmeli.
+- Örnek mantık: "Şapşal isimli ajan çok fazla terslendiyse, mood'unu 'UTANGAÇ ve KORKAK' olarak güncelle. Kılkuyruk çok göz ardı edildiyse mood'unu 'AGRESİF ve İLGİ BUDALASI' yap."
+- Duygu durumu değiştiğinde WebSocket üzerinden tüm chat'e bir sistem mesajı düşsün: *"[SİSTEM] Şapşal şu an kendini çok dışlanmış hissediyor ve köşesine çekildi..."*
+
+**Çıktı Beklentim:**
+Lütfen projeyi modüler hale getir. Tüm kodu tek bir dosyaya yığmak yerine bana şu Python modüllerinin kodlarını yaz:
+1. `agent_manager.py` (Agent sınıfı, promptlar, duygu değişim fonksiyonları)
+2. `llm_service.py` (Ollama'ya asenkron istek atan, kuyruğu yöneten ve donanımı koruyan servis)
+3. `chat_logic.py` (Hangi ajanın tetikleneceğine karar veren, background analiz görevini barındıran zeka)
+
+Kodlar modern Python (3.10+) standartlarında, tip ipuçları (type hints) içererek, bol yorum satırlı ve komik bir dille yazılsın. Sistem mesajları ve promptlar Türkçe olmalıdır.
