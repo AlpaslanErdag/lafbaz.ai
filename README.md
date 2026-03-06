@@ -1,3 +1,4 @@
+# <img src="assets/logo_1.png" width="500" align="center">
 ## Geveze - Yerel Ağı Karıştıran Sohbet ve Ajanlar
 
 Eğlenceli, biraz kaotik bir sohbet uygulaması. Aynı odada:
